@@ -23,18 +23,18 @@ public class Game  extends JPanel implements KeyListener, ActionListener {
 
 
     public Game() {
-    map = new MapGenerator(3, 7);
+        map = new MapGenerator(3, 7);
         addKeyListener(this);
 
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-       timer = new Timer(delay, this);
-       timer.start();
+        timer = new Timer(delay, this);
+        timer.start();
 
     }
 
     public void paint(Graphics g) {
-     //background
+        //background
 
         g.setColor(Color.BLACK);
         g.fillRect(1, 1, 692, 592);
@@ -53,33 +53,33 @@ public class Game  extends JPanel implements KeyListener, ActionListener {
 //the Ball
         g.setColor(Color.RED);
         g.fillOval(ballposX, ballposY, 20, 20);
-   g.dispose();
+        g.dispose();
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-timer.start();
-if(play){
-if (new Rectangle(ballposX,ballposY,20,20).intersects(new Rectangle(playerX,550,100,8))){
-    ballYdir =-ballYdir;
-}
+        timer.start();
+        if(play){
+            if (new Rectangle(ballposX,ballposY,20,20).intersects(new Rectangle(playerX,550,100,8))){
+                ballYdir =-ballYdir;
+            }
 
-    ballposX+=ballXdir;
-    ballposY+=ballYdir;
+            ballposX+=ballXdir;
+            ballposY+=ballYdir;
 
-    if(ballposX < 0){
-        ballXdir = -ballXdir;
-    }
-    if(ballposY < 0){
-        ballYdir = -ballYdir;
-}
-    if(ballposX > 670) {
-        ballXdir = -ballXdir;
-    }
-}
+            if(ballposX < 0){
+                ballXdir = -ballXdir;
+            }
+            if(ballposY < 0){
+                ballYdir = -ballYdir;
+            }
+            if(ballposX > 670) {
+                ballXdir = -ballXdir;
+            }
+        }
 
-repaint();
+        repaint();
     }
 
     @Override
