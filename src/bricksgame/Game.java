@@ -10,9 +10,8 @@ import java.awt.event.KeyListener;
 public class Game  extends JPanel implements KeyListener, ActionListener {
     private boolean play = false;
     private int score = 0;
-    private int totalBricks = 21;
-    private Timer timer;
-    private int delay = 8;
+    private int totalBricks = 21 ;
+    private final Timer timer;
     private int playerX = 310;
     private int ballposX = 120;
     private int ballposY = 350;
@@ -28,6 +27,7 @@ public class Game  extends JPanel implements KeyListener, ActionListener {
 
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
+        int delay = 8;
         timer = new Timer(delay, this);
         timer.start();
 
@@ -41,19 +41,45 @@ public class Game  extends JPanel implements KeyListener, ActionListener {
         // drawing map
         map.draw((Graphics2D) g);
 
+        //Score
+        g.setColor(Color.white);
+        g.setFont(new Font ("serif", Font.BOLD, 25));
+        g.drawString(""+score,590,30);
 //border
-        g.setColor(Color.YELLOW);
-        g.fillRect(0, 0, 3, 592);
-        g.fillRect(0, 0, 691, 3);
-        g.fillRect(691, 0, 3, 592);
-//paddel
         g.setColor(Color.BLUE);
+        g.fillRect(0, 0, 3, 592);
+        g.fillRect(0, 0, 692, 3);
+        g.fillRect(681, 0, 3, 592);
+//paddel
+        g.setColor(Color.GREEN);
         g.fillRect(playerX, 550, 100, 8);
 
 //the Ball
         g.setColor(Color.RED);
         g.fillOval(ballposX, ballposY, 20, 20);
-        g.dispose();
+      if(totalBricks<=0){
+          play = false;
+          ballXdir = 0;
+          ballYdir = 0;
+          g.setColor(Color.YELLOW);
+          g.setFont(new Font ("serif", Font.BOLD, 30));
+          g.drawString("Level is complete:",190,300);
+          g.setFont(new Font ("serif", Font.BOLD, 30));
+          g.drawString("Press Enter to Restart",230,350);
+      }
+        if(ballposY > 560){
+            play = false;
+            ballXdir = 0;
+            ballYdir = 0;
+            g.setColor(Color.RED);
+            g.setFont(new Font ("serif", Font.BOLD, 30));
+            g.drawString("game over, your Score:",190,300);
+            g.setFont(new Font ("serif", Font.BOLD, 30));
+            g.drawString("Press Enter to Restart",230,350);
+            g.dispose();
+        }
+
+
     }
 
 
@@ -134,6 +160,20 @@ break A;
                 playerX = 10;
             } else {
                 moveLeft();
+            }
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            if(!play){
+               play = true;
+               ballposX=120;
+               ballposY= 350;
+               ballXdir=-1;
+               ballYdir=-2;
+playerX = 310;
+score= 0;
+totalBricks = 21;
+map = new MapGenerator(3,7);
+repaint();
             }
         }
     }
